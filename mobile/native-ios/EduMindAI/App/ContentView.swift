@@ -8,9 +8,8 @@ struct ContentView: View {
             if auth.isAuthenticated {
                 MainTabView()
             } else {
-                LoginView()
+                AuthContainerView()
             }
         }
     }
 }
-

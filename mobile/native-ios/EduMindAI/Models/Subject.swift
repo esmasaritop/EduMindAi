@@ -1,6 +1,6 @@
 import Foundation
 
-struct StudySubject: Decodable, Identifiable {
+struct StudySubject: Codable, Identifiable {
     let id: Int
     let name: String
 }

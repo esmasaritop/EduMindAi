@@ -16,6 +16,9 @@ struct DashboardData: Decodable {
     let streak: Streak
     let activeGoals: [Goal]
     let weeklyStats: [WeeklyStat]
+    let weeklyTopicStats: [WeeklyTopicStat]?
+
+    var topicStats: [WeeklyTopicStat] { weeklyTopicStats ?? [] }
     let unreadNotificationCount: Int
 
     var todayDuration: Int { today.totalDuration }
@@ -31,3 +34,12 @@ struct WeeklyStat: Decodable, Identifiable {
     let totalDuration: Int
 }
 
+struct WeeklyTopicStat: Decodable, Identifiable {
+    var id: Int { topicId }
+    let topicId: Int
+    let topicName: String
+    let subjectId: Int
+    let subjectName: String
+    let weeklyMinutes: Int
+    let totalMinutes: Int
+}

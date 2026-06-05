@@ -1,0 +1,16 @@
+{
+  "name": "edumindai",
+  "private": true,
+  "description": "EduMindAi monorepo — backend, web ve mobil geliştirme ortamı",
+  "scripts": {
+    "start": "npm run start-all",
+    "start-all": "concurrently --kill-others-on-fail -n backend,web,mobile -c blue,green,magenta \"npm run start:backend\" \"npm run start:web\" \"npm run start:mobile\"",
+    "start:backend": "cd backend && php artisan serve --host=127.0.0.1 --port=8000",
+    "start:web": "cd web && npm run dev -- --host 127.0.0.1 --port 5173",
+    "start:mobile": "bash scripts/start-mobile-ios.sh",
+    "setup": "npm install && cd backend && composer install && cd ../web && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
