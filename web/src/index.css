@@ -1,0 +1,78 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f1f5f9;
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+input, select, textarea, button { font-family: inherit; }
+
+@keyframes float1 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-28px) rotate(8deg); }
+}
+@keyframes float2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(22px) rotate(-6deg); }
+}
+@keyframes float3 {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-18px) scale(1.07); }
+}
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  33%       { transform: translate(14px, -20px); }
+  66%       { transform: translate(-12px, 12px); }
+}
+@keyframes pulse-ring {
+  0%   { transform: scale(0.92); opacity: 0.6; }
+  100% { transform: scale(1.08); opacity: 0; }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* SweetAlert2 — EduMind tema */
+.swal2-popup.edumind-swal-popup {
+  border-radius: 16px;
+  padding: 28px 24px 24px;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+}
+
+.swal2-title.edumind-swal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.swal2-html-container.edumind-swal-text {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.swal2-styled.edumind-swal-confirm,
+.swal2-styled.edumind-swal-cancel {
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  padding: 10px 22px !important;
+  box-shadow: none !important;
+}
+
+.swal2-icon.swal2-warning {
+  border-color: #fcd34d;
+  color: #f59e0b;
+}

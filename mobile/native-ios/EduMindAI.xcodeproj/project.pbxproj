@@ -1,0 +1,439 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		05FFE0F94C1C65238CFC6235 /* APIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3FAEBEDDE60BA786EC49F2 /* APIConfig.swift */; };
+		1F3D8B15C601C0FFAA6EB93C /* APIWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0738AE4FDA40F6546BF56D72 /* APIWrappers.swift */; };
+		20FA22CBE25491ED0F9C29CD /* StudySessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174D8F1B8CBED7423BF4FB09 /* StudySessionsView.swift */; };
+		2100A2880308421DEA69EBBC /* StudySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5353E3FD3A26D74206DFAC /* StudySession.swift */; };
+		28C5C40476BAE1D87E445982 /* SubjectsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE67F9561B3F8DD8D5D23332 /* SubjectsViewModel.swift */; };
+		39D7A65F76B339BDD823348F /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302288DD5D8D85E59B75788F /* AppNotification.swift */; };
+		40B01E881168949041799CC6 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7932C760F9F121D611CE7E /* HTTPMethod.swift */; };
+		5379D1088A6E967EF874FF7F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FFA59AD19FF2D8580FD8C2 /* LoginView.swift */; };
+		5649CB9CD0D2D3420C74B2EA /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075444339267FA1A0A06C90A /* NotificationsView.swift */; };
+		5BB0CD5D87E5A9687D6D0D6F /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D443C7E06AE70819AA0F1C /* AuthModels.swift */; };
+		63057C381820A8CF85FA5BF5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78BACCF1039C6CCC4075649 /* HomeView.swift */; };
+		78E15DB4E5EC4CD079A6755C /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF85CAA9A1B4C0D0D9BEABC /* Goal.swift */; };
+		7B3D18E4B37DE43660FF5711 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D257D8DF8BE4C4AC4F2C8DF /* ContentView.swift */; };
+		7B5A03A89AA9021EE1F13B39 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1619E3AE9C90FABDB370DEB /* AuthViewModel.swift */; };
+		7DA916B9392A1A796D278C1D /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E526C6CC69C4639EB420FB /* Endpoint.swift */; };
+		9A4FC2F0CD257B9A130BB75C /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E16FD3B45B3AEE7381953A /* TokenStore.swift */; };
+		A20EFFE209B9118EBE5B746E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96A2DA59E5A5B8DAFA69A99 /* User.swift */; };
+		A2668002879D29493D6DD0D4 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536CB86BF79449861D280B2C /* DashboardViewModel.swift */; };
+		CE314601A0E450801F4A54C4 /* GoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F290F848E1E40DDEE7096923 /* GoalsView.swift */; };
+		D6E7400D203D7F6B2ADB5A45 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB59B85A7B797793C028849 /* MainTabView.swift */; };
+		D74200DE316B69F1755BE75E /* EduMindAIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ED62F48C5C593C4CB9E05E /* EduMindAIApp.swift */; };
+		DA1E9E9F270AFD246DFCD0DA /* SubjectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39541FEA216DAC98B354F942 /* SubjectsView.swift */; };
+		E93F0FA297A55CCAA3673970 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B3DE52FF44E41EC4ABC035 /* NetworkError.swift */; };
+		E9E6C6D5D08878FEBD5550D4 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6F55979F5B513737E265F1 /* NetworkManager.swift */; };
+		F3D61F3FD9D7F67045C46049 /* DashboardModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3689097BB879D9D968DE6AA5 /* DashboardModels.swift */; };
+		FFE91CA058EF5A7A3F4CE8B4 /* Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4EBBF9DCAE0B335F53CB1E /* Subject.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0738AE4FDA40F6546BF56D72 /* APIWrappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIWrappers.swift; sourceTree = "<group>"; };
+		075444339267FA1A0A06C90A /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
+		16ED62F48C5C593C4CB9E05E /* EduMindAIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EduMindAIApp.swift; sourceTree = "<group>"; };
+		174D8F1B8CBED7423BF4FB09 /* StudySessionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudySessionsView.swift; sourceTree = "<group>"; };
+		1A5353E3FD3A26D74206DFAC /* StudySession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudySession.swift; sourceTree = "<group>"; };
+		2FF85CAA9A1B4C0D0D9BEABC /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
+		302288DD5D8D85E59B75788F /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
+		3689097BB879D9D968DE6AA5 /* DashboardModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardModels.swift; sourceTree = "<group>"; };
+		39541FEA216DAC98B354F942 /* SubjectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsView.swift; sourceTree = "<group>"; };
+		536CB86BF79449861D280B2C /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		55B3DE52FF44E41EC4ABC035 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		6D257D8DF8BE4C4AC4F2C8DF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		79E526C6CC69C4639EB420FB /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		7E3FAEBEDDE60BA786EC49F2 /* APIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfig.swift; sourceTree = "<group>"; };
+		93D443C7E06AE70819AA0F1C /* AuthModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModels.swift; sourceTree = "<group>"; };
+		9B7932C760F9F121D611CE7E /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		A96A2DA59E5A5B8DAFA69A99 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		B03D913F80FAE5F39ABEAEBA /* EduMindAI.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = EduMindAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE6F55979F5B513737E265F1 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		C1619E3AE9C90FABDB370DEB /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		C1FFA59AD19FF2D8580FD8C2 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		CAB59B85A7B797793C028849 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		E78BACCF1039C6CCC4075649 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		EA4EBBF9DCAE0B335F53CB1E /* Subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subject.swift; sourceTree = "<group>"; };
+		EE67F9561B3F8DD8D5D23332 /* SubjectsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsViewModel.swift; sourceTree = "<group>"; };
+		F290F848E1E40DDEE7096923 /* GoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsView.swift; sourceTree = "<group>"; };
+		F2E16FD3B45B3AEE7381953A /* TokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		10DE9A61ACD47DC2099E9DB5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0738AE4FDA40F6546BF56D72 /* APIWrappers.swift */,
+				302288DD5D8D85E59B75788F /* AppNotification.swift */,
+				93D443C7E06AE70819AA0F1C /* AuthModels.swift */,
+				3689097BB879D9D968DE6AA5 /* DashboardModels.swift */,
+				2FF85CAA9A1B4C0D0D9BEABC /* Goal.swift */,
+				1A5353E3FD3A26D74206DFAC /* StudySession.swift */,
+				EA4EBBF9DCAE0B335F53CB1E /* Subject.swift */,
+				A96A2DA59E5A5B8DAFA69A99 /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		11142ED9CFE79CBE2693C8ED = {
+			isa = PBXGroup;
+			children = (
+				2AB2B316EFA0FD2C27C9C2C9 /* EduMindAI */,
+				C752C4A0D815A56AD94F95B0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2AB2B316EFA0FD2C27C9C2C9 /* EduMindAI */ = {
+			isa = PBXGroup;
+			children = (
+				595EB9CD9DB25FF83F38D8C3 /* App */,
+				10DE9A61ACD47DC2099E9DB5 /* Models */,
+				E31CCBFBAA2A9A22E845B75D /* Network */,
+				4CF9518A94E6569E15E83D33 /* Storage */,
+				94DE726FCBAE0FEB8AEEFC9C /* ViewModels */,
+				6C4F68192915C6E40A443DF5 /* Views */,
+			);
+			path = EduMindAI;
+			sourceTree = "<group>";
+		};
+		4CF9518A94E6569E15E83D33 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				F2E16FD3B45B3AEE7381953A /* TokenStore.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		595EB9CD9DB25FF83F38D8C3 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				6D257D8DF8BE4C4AC4F2C8DF /* ContentView.swift */,
+				16ED62F48C5C593C4CB9E05E /* EduMindAIApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		6C4F68192915C6E40A443DF5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F290F848E1E40DDEE7096923 /* GoalsView.swift */,
+				E78BACCF1039C6CCC4075649 /* HomeView.swift */,
+				C1FFA59AD19FF2D8580FD8C2 /* LoginView.swift */,
+				CAB59B85A7B797793C028849 /* MainTabView.swift */,
+				075444339267FA1A0A06C90A /* NotificationsView.swift */,
+				174D8F1B8CBED7423BF4FB09 /* StudySessionsView.swift */,
+				39541FEA216DAC98B354F942 /* SubjectsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		94DE726FCBAE0FEB8AEEFC9C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				C1619E3AE9C90FABDB370DEB /* AuthViewModel.swift */,
+				536CB86BF79449861D280B2C /* DashboardViewModel.swift */,
+				EE67F9561B3F8DD8D5D23332 /* SubjectsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		C752C4A0D815A56AD94F95B0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B03D913F80FAE5F39ABEAEBA /* EduMindAI.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E31CCBFBAA2A9A22E845B75D /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				7E3FAEBEDDE60BA786EC49F2 /* APIConfig.swift */,
+				79E526C6CC69C4639EB420FB /* Endpoint.swift */,
+				9B7932C760F9F121D611CE7E /* HTTPMethod.swift */,
+				55B3DE52FF44E41EC4ABC035 /* NetworkError.swift */,
+				BE6F55979F5B513737E265F1 /* NetworkManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		23F8CB5CA6957E3E0BE261E2 /* EduMindAI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 29F7A6AF2BF2E4AC6D9B5CC5 /* Build configuration list for PBXNativeTarget "EduMindAI" */;
+			buildPhases = (
+				D79DD1254BE32D10F5461D38 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EduMindAI;
+			packageProductDependencies = (
+			);
+			productName = EduMindAI;
+			productReference = B03D913F80FAE5F39ABEAEBA /* EduMindAI.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0FD99FE36A1B7AA14E17303B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					23F8CB5CA6957E3E0BE261E2 = {
+						DevelopmentTeam = "";
+					};
+				};
+			};
+			buildConfigurationList = 4D80D67C513BCFA79D6A0EDC /* Build configuration list for PBXProject "EduMindAI" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 11142ED9CFE79CBE2693C8ED;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C752C4A0D815A56AD94F95B0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				23F8CB5CA6957E3E0BE261E2 /* EduMindAI */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D79DD1254BE32D10F5461D38 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05FFE0F94C1C65238CFC6235 /* APIConfig.swift in Sources */,
+				1F3D8B15C601C0FFAA6EB93C /* APIWrappers.swift in Sources */,
+				39D7A65F76B339BDD823348F /* AppNotification.swift in Sources */,
+				5BB0CD5D87E5A9687D6D0D6F /* AuthModels.swift in Sources */,
+				7B5A03A89AA9021EE1F13B39 /* AuthViewModel.swift in Sources */,
+				7B3D18E4B37DE43660FF5711 /* ContentView.swift in Sources */,
+				F3D61F3FD9D7F67045C46049 /* DashboardModels.swift in Sources */,
+				A2668002879D29493D6DD0D4 /* DashboardViewModel.swift in Sources */,
+				D74200DE316B69F1755BE75E /* EduMindAIApp.swift in Sources */,
+				7DA916B9392A1A796D278C1D /* Endpoint.swift in Sources */,
+				78E15DB4E5EC4CD079A6755C /* Goal.swift in Sources */,
+				CE314601A0E450801F4A54C4 /* GoalsView.swift in Sources */,
+				40B01E881168949041799CC6 /* HTTPMethod.swift in Sources */,
+				63057C381820A8CF85FA5BF5 /* HomeView.swift in Sources */,
+				5379D1088A6E967EF874FF7F /* LoginView.swift in Sources */,
+				D6E7400D203D7F6B2ADB5A45 /* MainTabView.swift in Sources */,
+				E93F0FA297A55CCAA3673970 /* NetworkError.swift in Sources */,
+				E9E6C6D5D08878FEBD5550D4 /* NetworkManager.swift in Sources */,
+				5649CB9CD0D2D3420C74B2EA /* NotificationsView.swift in Sources */,
+				2100A2880308421DEA69EBBC /* StudySession.swift in Sources */,
+				20FA22CBE25491ED0F9C29CD /* StudySessionsView.swift in Sources */,
+				FFE91CA058EF5A7A3F4CE8B4 /* Subject.swift in Sources */,
+				DA1E9E9F270AFD246DFCD0DA /* SubjectsView.swift in Sources */,
+				28C5C40476BAE1D87E445982 /* SubjectsViewModel.swift in Sources */,
+				9A4FC2F0CD257B9A130BB75C /* TokenStore.swift in Sources */,
+				A20EFFE209B9118EBE5B746E /* User.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		095A4317764904F52AEE48E1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.edumindai.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		875D59B1AFC1B864441BDADE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C3D20A02A2A37012B53B4E8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E52BD6E7E93A4130670EED52 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.edumindai.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		29F7A6AF2BF2E4AC6D9B5CC5 /* Build configuration list for PBXNativeTarget "EduMindAI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				095A4317764904F52AEE48E1 /* Debug */,
+				E52BD6E7E93A4130670EED52 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4D80D67C513BCFA79D6A0EDC /* Build configuration list for PBXProject "EduMindAI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3D20A02A2A37012B53B4E8A /* Debug */,
+				875D59B1AFC1B864441BDADE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0FD99FE36A1B7AA14E17303B /* Project object */;
+}
