@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem('token'));
 
   const login = async (credentials) => {
-    const { data } = await loginApi(credentials);
+    const { data } = await loginApi({ ...credentials, device_name: 'web' });
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
     setToken(data.token);

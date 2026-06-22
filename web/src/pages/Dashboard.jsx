@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, Flame, Target, Bell, X, Save } from 'lucide-react';
+import { Clock, Flame, Target, Bell, X, Save, Sparkles, AlertTriangle, Lightbulb, RefreshCw } from 'lucide-react';
 import { getDashboard } from '../api/dashboard';
+import { getAiRecommendations, getAiStatus, generateAiRecommendations } from '../api/ai';
 import { updateGoal } from '../api/goals';
 import { getProgressColor, getGoalStatusLabel } from '../utils/notifications';
 import { getGoalScopeLabel, getGoalScopeBadge } from '../utils/goals';
@@ -220,6 +221,115 @@ function EditGoalModal({ goal, onClose, onSaved }) {
   );
 }
 
+/* ─── AiRecommendations ─── */
+function AiRecommendations() {
+  const [items, setItems] = useState([]);
+  const [canGenerate, setCanGenerate] = useState(true);
+  const [cooldown, setCooldown] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [generating, setGenerating] = useState(false);
+  const [error, setError] = useState('');
+
+  const load = () => {
+    setLoading(true);
+    Promise.all([getAiRecommendations(), getAiStatus()])
+      .then(([recRes, statusRes]) => {
+        setItems(recRes.data.data ?? []);
+        setCanGenerate(statusRes.data.data?.can_generate ?? true);
+        setCooldown(statusRes.data.data?.cooldown_remaining_minutes ?? 0);
+      })
+      .catch(() => setError('AI önerileri yüklenemedi.'))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => { load(); }, []);
+
+  const handleGenerate = async () => {
+    setGenerating(true);
+    setError('');
+    try {
+      const res = await generateAiRecommendations();
+      setItems(res.data.data ?? []);
+      setCanGenerate(false);
+      setCooldown(60);
+    } catch (err) {
+      const msg = err.response?.data?.message ?? 'Öneri oluşturulamadı.';
+      setError(msg);
+      if (err.response?.data?.cooldown_remaining_minutes != null) {
+        setCooldown(err.response.data.cooldown_remaining_minutes);
+        setCanGenerate(false);
+      }
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  return (
+    <div style={s.card}>
+      <div style={s.aiHeader}>
+        <div>
+          <h3 style={s.cardTitle}>
+            <Sparkles size={16} style={{ marginRight: 6, verticalAlign: 'middle', color: '#7c3aed' }} />
+            AI Çalışma Koçu
+          </h3>
+          <p style={s.cardSub}>Çalışma verilerine göre kişisel öneriler</p>
+        </div>
+        <button
+          onClick={handleGenerate}
+          disabled={generating || !canGenerate}
+          style={{
+            ...s.aiRefreshBtn,
+            opacity: generating || !canGenerate ? 0.6 : 1,
+            cursor: generating || !canGenerate ? 'not-allowed' : 'pointer',
+          }}
+        >
+          <RefreshCw size={14} style={{ marginRight: 6, verticalAlign: 'middle' }} />
+          {generating ? 'Oluşturuluyor...' : canGenerate ? 'Yeni Öneri Al' : `${cooldown} dk bekle`}
+        </button>
+      </div>
+
+      {loading && <p style={{ fontSize: 13, color: '#94a3b8' }}>Yükleniyor...</p>}
+      {error && <div style={s.errorBox}>{error}</div>}
+
+      {!loading && items.length === 0 && !error && (
+        <p style={{ fontSize: 13, color: '#94a3b8' }}>
+          Henüz AI önerisi yok. Ders, konu ve çalışma verilerini girdikten sonra &quot;Yeni Öneri Al&quot; butonuna bas.
+        </p>
+      )}
+
+      {!loading && items.length > 0 && (
+        <div style={s.aiList}>
+          {items.map((item) => {
+            const isWarning = item.type === 'warning';
+            const Icon = isWarning ? AlertTriangle : Lightbulb;
+            return (
+              <div
+                key={item.id}
+                style={{
+                  ...s.aiItem,
+                  borderColor: isWarning ? '#fecaca' : '#ddd6fe',
+                  background: isWarning ? '#fff7f7' : '#faf5ff',
+                }}
+              >
+                <Icon
+                  size={16}
+                  style={{ color: isWarning ? '#dc2626' : '#7c3aed', flexShrink: 0, marginTop: 2 }}
+                />
+                <div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: isWarning ? '#dc2626' : '#7c3aed', marginBottom: 4 }}>
+                    {isWarning ? 'Dikkat' : 'Öneri'}
+                  </div>
+                  <div style={{ fontSize: 13, color: '#334155', lineHeight: 1.5 }}>{item.content}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ─── Dashboard ─── */
 export default function Dashboard() {
   const [data, setData] = useState(null);
@@ -251,6 +361,8 @@ export default function Dashboard() {
           <StatCard icon={Bell}   label="Okunmamış"      value={data.unread_notification_count}          sub="bildirim — tıkla"                                             color="#dc2626" bg="#fef2f2" />
         </Link>
       </div>
+
+      <AiRecommendations />
 
       {/* Weekly Chart */}
       <WeeklyBar stats={data.weekly_stats} />
@@ -361,4 +473,8 @@ const s = {
   input: { padding: '9px 12px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 7, color: '#0f172a', fontSize: 14, outline: 'none' },
   saveBtn: { padding: '10px 20px', background: '#6366f1', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 600, fontSize: 14, alignSelf: 'flex-end', marginTop: 4 },
   errorBox: { background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8, padding: '8px 12px', color: '#dc2626', fontSize: 13 },
+  aiHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 4 },
+  aiRefreshBtn: { padding: '8px 14px', background: '#7c3aed', color: '#fff', border: 'none', borderRadius: 8, fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap' },
+  aiList: { display: 'flex', flexDirection: 'column', gap: 10 },
+  aiItem: { display: 'flex', gap: 10, padding: '12px 14px', borderRadius: 10, border: '1px solid' },
 };
