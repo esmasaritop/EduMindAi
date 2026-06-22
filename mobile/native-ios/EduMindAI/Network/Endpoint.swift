@@ -45,7 +45,7 @@ extension Endpoint {
         Endpoint(
             method: .post,
             path: "auth/login",
-            body: try APIClient.encode(LoginRequest(email: email, password: password)),
+            body: try APIClient.encode(LoginRequest(email: email, password: password, deviceName: "ios")),
             requiresAuth: false
         )
     }
@@ -73,6 +73,10 @@ extension Endpoint {
 
     static func createSubject(name: String) throws -> Endpoint {
         Endpoint(method: .post, path: "subjects", body: try APIClient.encode(NamePayload(name: name)))
+    }
+
+    static func updateSubject(id: Int, name: String) throws -> Endpoint {
+        Endpoint(method: .put, path: "subjects/\(id)", body: try APIClient.encode(NamePayload(name: name)))
     }
 
     static func deleteSubject(id: Int) -> Endpoint {
@@ -131,6 +135,10 @@ extension Endpoint {
         Endpoint(method: .post, path: "questions/topics/\(topicId)", body: try APIClient.encode(payload))
     }
 
+    static func addQuestionStat(topicId: Int, payload: QuestionStatFormPayload) throws -> Endpoint {
+        Endpoint(method: .patch, path: "questions/topics/\(topicId)/add", body: try APIClient.encode(payload))
+    }
+
     static func notificationSummary() -> Endpoint {
         Endpoint(method: .get, path: "notifications/summary")
     }
@@ -149,6 +157,18 @@ extension Endpoint {
 
     static func markNotificationRead(id: Int) -> Endpoint {
         Endpoint(method: .patch, path: "notifications/\(id)/read")
+    }
+
+    static func aiRecommendations() -> Endpoint {
+        Endpoint(method: .get, path: "ai/recommendations")
+    }
+
+    static func aiRecommendationStatus() -> Endpoint {
+        Endpoint(method: .get, path: "ai/recommendations/status")
+    }
+
+    static func generateAiRecommendations() -> Endpoint {
+        Endpoint(method: .post, path: "ai/recommendations/generate")
     }
 }
 

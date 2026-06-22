@@ -4,8 +4,14 @@ import Combine
 @MainActor
 final class DashboardViewModel: ObservableObject {
     @Published private(set) var dashboard: DashboardData?
+    @Published private(set) var aiRecommendations: [AiRecommendation] = []
+    @Published private(set) var canGenerateAi = true
+    @Published private(set) var aiCooldownMinutes = 0
     @Published var isLoading = false
+    @Published var isLoadingAi = false
+    @Published var isGeneratingAi = false
     @Published var errorMessage: String?
+    @Published var aiErrorMessage: String?
     @Published var editingGoal: Goal?
     @Published var editType = "weekly"
     @Published var editTargetDuration = ""
@@ -27,6 +33,48 @@ final class DashboardViewModel: ObservableObject {
             dashboard = envelope.data
         } catch {
             errorMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
+        }
+    }
+
+    func loadAiRecommendations() async {
+        isLoadingAi = true
+        aiErrorMessage = nil
+        defer { isLoadingAi = false }
+        do {
+            async let recommendationsResponse = network.request(
+                Endpoint.aiRecommendations(),
+                as: CollectionEnvelope<AiRecommendation>.self
+            )
+            async let statusResponse = network.request(
+                Endpoint.aiRecommendationStatus(),
+                as: DataEnvelope<AiRecommendationStatus>.self
+            )
+            let (recommendationsEnvelope, statusEnvelope) = try await (recommendationsResponse, statusResponse)
+            aiRecommendations = recommendationsEnvelope.data
+            canGenerateAi = statusEnvelope.data.canGenerate
+            aiCooldownMinutes = statusEnvelope.data.cooldownRemainingMinutes
+        } catch {
+            aiErrorMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
+        }
+    }
+
+    func generateAiRecommendations() async {
+        guard canGenerateAi, !isGeneratingAi else { return }
+        isGeneratingAi = true
+        aiErrorMessage = nil
+        defer { isGeneratingAi = false }
+        do {
+            try await network.requestVoid(Endpoint.generateAiRecommendations())
+            await loadAiRecommendations()
+        } catch let error as NetworkError {
+            if case let .httpError(statusCode, message) = error, statusCode == 429 {
+                aiErrorMessage = message
+                await loadAiRecommendations()
+            } else {
+                aiErrorMessage = error.errorDescription
+            }
+        } catch {
+            aiErrorMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
         }
     }
 

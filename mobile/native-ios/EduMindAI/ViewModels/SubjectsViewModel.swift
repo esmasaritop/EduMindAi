@@ -10,19 +10,11 @@ final class SubjectsViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var newSubjectName = ""
     @Published var newTopicNames: [Int: String] = [:]
-    @Published var timerTopicId: Int?
-    @Published var timerSeconds = 0
-    @Published var isTimerRunning = false
 
     private let network: NetworkManager
-    private var timerTask: Task<Void, Never>?
 
     init(network: NetworkManager = .shared) {
         self.network = network
-    }
-
-    deinit {
-        timerTask?.cancel()
     }
 
     func load() async {
@@ -69,6 +61,20 @@ final class SubjectsViewModel: ObservableObject {
         }
     }
 
+    func updateSubject(_ subject: StudySubject, name: String) async {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+        do {
+            _ = try await network.request(
+                try Endpoint.updateSubject(id: subject.id, name: trimmed),
+                as: MessageDataEnvelope<StudySubject>.self
+            )
+            await load()
+        } catch {
+            errorMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
+        }
+    }
+
     func deleteSubject(_ subject: StudySubject) async {
         do {
             try await network.requestVoid(Endpoint.deleteSubject(id: subject.id))
@@ -93,11 +99,12 @@ final class SubjectsViewModel: ObservableObject {
         }
     }
 
-    func toggleTrackQuestions(_ topic: Topic) async {
-        let next = !(topic.trackQuestions ?? false)
+    func updateTopicName(_ topic: Topic, name: String) async {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
         do {
             _ = try await network.request(
-                try Endpoint.updateTopic(id: topic.id, payload: TopicUpdatePayload(trackQuestions: next, name: nil)),
+                try Endpoint.updateTopic(id: topic.id, payload: TopicUpdatePayload(trackQuestions: nil, name: trimmed)),
                 as: DataEnvelope<Topic>.self
             )
             if let subjectId = topic.subjectId {
@@ -108,10 +115,13 @@ final class SubjectsViewModel: ObservableObject {
         }
     }
 
-    func addManualTime(topic: Topic, hours: Int, minutes: Int) async {
-        let total = max(1, hours * 60 + minutes)
+    func toggleTrackQuestions(_ topic: Topic) async {
+        let next = !(topic.trackQuestions ?? false)
         do {
-            _ = try await network.request(try Endpoint.addTopicTime(id: topic.id, minutes: total), as: DataEnvelope<Topic>.self)
+            _ = try await network.request(
+                try Endpoint.updateTopic(id: topic.id, payload: TopicUpdatePayload(trackQuestions: next, name: nil)),
+                as: DataEnvelope<Topic>.self
+            )
             if let subjectId = topic.subjectId {
                 await loadTopics(for: subjectId)
             }
@@ -129,59 +139,5 @@ final class SubjectsViewModel: ObservableObject {
         } catch {
             errorMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
         }
-    }
-
-    func startTimer(for topic: Topic) {
-        timerTopicId = topic.id
-        if !isTimerRunning {
-            isTimerRunning = true
-            timerTask?.cancel()
-            timerTask = Task {
-                while !Task.isCancelled && isTimerRunning {
-                    try? await Task.sleep(nanoseconds: 1_000_000_000)
-                    timerSeconds += 1
-                }
-            }
-        }
-    }
-
-    func stopTimerAndSave(topic: Topic, subjectId: Int) async {
-        timerTask?.cancel()
-        isTimerRunning = false
-        let minutes = max(1, timerSeconds / 60)
-        timerSeconds = 0
-        timerTopicId = nil
-        let endedAt = DateFormatters.isoNow()
-        let startedAt = DateFormatters.isoNow()
-        do {
-            async let topicTime: DataEnvelope<Topic> = network.request(
-                try Endpoint.addTopicTime(id: topic.id, minutes: minutes),
-                as: DataEnvelope<Topic>.self
-            )
-            async let session: MessageDataEnvelope<StudySession> = network.request(
-                try Endpoint.createStudySession(
-                    StudySessionFormPayload(
-                        subjectId: subjectId,
-                        duration: minutes,
-                        startedAt: startedAt,
-                        endedAt: endedAt,
-                        sessionType: "timer",
-                        notes: "Konu: \(topic.name)"
-                    )
-                ),
-                as: MessageDataEnvelope<StudySession>.self
-            )
-            _ = try await (topicTime, session)
-            await loadTopics(for: subjectId)
-        } catch {
-            errorMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
-        }
-    }
-
-    func resetTimer() {
-        timerTask?.cancel()
-        isTimerRunning = false
-        timerSeconds = 0
-        timerTopicId = nil
     }
 }

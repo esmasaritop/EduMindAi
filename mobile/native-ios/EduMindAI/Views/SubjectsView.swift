@@ -2,6 +2,9 @@ import SwiftUI
 
 struct SubjectsView: View {
     @StateObject private var vm = SubjectsViewModel()
+    @State private var editingSubject: StudySubject?
+    @State private var editingTopic: Topic?
+    @State private var editName = ""
 
     var body: some View {
         NavigationStack {
@@ -29,6 +32,13 @@ struct SubjectsView: View {
                             HStack {
                                 Text(subject.name).font(.headline)
                                 Spacer()
+                                Button {
+                                    editingSubject = subject
+                                    editName = subject.name
+                                } label: {
+                                    Image(systemName: "pencil")
+                                }
+                                .buttonStyle(.borderless)
                                 Button(role: .destructive) {
                                     Task { await vm.deleteSubject(subject) }
                                 } label: {
@@ -47,6 +57,32 @@ struct SubjectsView: View {
             .navigationTitle("Derslerim")
             .refreshable { await vm.load() }
             .task { await vm.load() }
+            .alert("Dersi Düzenle", isPresented: Binding(
+                get: { editingSubject != nil },
+                set: { if !$0 { editingSubject = nil } }
+            )) {
+                TextField("Ders adı", text: $editName)
+                Button("Kaydet") {
+                    if let subject = editingSubject {
+                        Task { await vm.updateSubject(subject, name: editName) }
+                    }
+                    editingSubject = nil
+                }
+                Button("İptal", role: .cancel) { editingSubject = nil }
+            }
+            .alert("Konuyu Düzenle", isPresented: Binding(
+                get: { editingTopic != nil },
+                set: { if !$0 { editingTopic = nil } }
+            )) {
+                TextField("Konu adı", text: $editName)
+                Button("Kaydet") {
+                    if let topic = editingTopic {
+                        Task { await vm.updateTopicName(topic, name: editName) }
+                    }
+                    editingTopic = nil
+                }
+                Button("İptal", role: .cancel) { editingTopic = nil }
+            }
         }
     }
 
@@ -76,20 +112,13 @@ struct SubjectsView: View {
                     set: { _ in Task { await vm.toggleTrackQuestions(topic) } }
                 ))
                 HStack {
-                    if vm.timerTopicId == topic.id {
-                        Text(formatSeconds(vm.timerSeconds)).monospacedDigit()
-                        if vm.isTimerRunning {
-                            Button("Durdur & Kaydet") {
-                                Task { await vm.stopTimerAndSave(topic: topic, subjectId: subject.id) }
-                            }
-                        }
-                        Button("Reset") { vm.resetTimer() }
-                    } else {
-                        Button("Başlat") { vm.startTimer(for: topic) }
+                    Button {
+                        editingTopic = topic
+                        editName = topic.name
+                    } label: {
+                        Label("Düzenle", systemImage: "pencil")
                     }
-                    Button("Süre Ekle") {
-                        Task { await vm.addManualTime(topic: topic, hours: 0, minutes: 30) }
-                    }
+                    Spacer()
                     Button(role: .destructive) {
                         Task { await vm.deleteTopic(topic) }
                     } label: {
@@ -100,9 +129,5 @@ struct SubjectsView: View {
             }
             .padding(.vertical, 4)
         }
-    }
-
-    private func formatSeconds(_ seconds: Int) -> String {
-        String(format: "%02d:%02d", seconds / 60, seconds % 60)
     }
 }

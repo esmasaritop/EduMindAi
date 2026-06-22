@@ -25,6 +25,8 @@ struct HomeView: View {
                         Text("Dashboard verisi yok.").foregroundStyle(.secondary)
                     }
 
+                    aiRecommendationsSection
+
                     if let error = vm.errorMessage {
                         Text(error).foregroundStyle(.red)
                     }
@@ -39,12 +41,87 @@ struct HomeView: View {
                 .padding()
             }
             .navigationTitle("Dashboard")
-            .refreshable { await vm.load() }
-            .task { await vm.load() }
+            .refreshable {
+                await vm.load()
+                await vm.loadAiRecommendations()
+            }
+            .task {
+                await vm.load()
+                await vm.loadAiRecommendations()
+            }
             .sheet(item: $vm.editingGoal) { goal in
                 goalEditSheet(goal)
             }
         }
+    }
+
+    private var aiRecommendationsSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Label("AI Çalışma Koçu", systemImage: "sparkles")
+                        .font(.headline)
+                        .foregroundStyle(.purple)
+                    Text("Çalışma verilerine göre kişisel öneriler")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+                Button {
+                    Task { await vm.generateAiRecommendations() }
+                } label: {
+                    if vm.isGeneratingAi {
+                        ProgressView()
+                    } else if vm.canGenerateAi {
+                        Label("Yeni Öneri Al", systemImage: "arrow.clockwise")
+                    } else {
+                        Text("\(vm.aiCooldownMinutes) dk bekle")
+                    }
+                }
+                .buttonStyle(.bordered)
+                .tint(.purple)
+                .disabled(vm.isGeneratingAi || !vm.canGenerateAi)
+                .font(.caption)
+            }
+
+            if vm.isLoadingAi && vm.aiRecommendations.isEmpty {
+                ProgressView("AI önerileri yükleniyor...")
+            } else if let error = vm.aiErrorMessage {
+                Text(error).font(.caption).foregroundStyle(.red)
+            } else if vm.aiRecommendations.isEmpty {
+                Text("Henüz AI önerisi yok. Ders, konu ve çalışma verilerini girdikten sonra \"Yeni Öneri Al\" butonuna bas.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(vm.aiRecommendations) { item in
+                    aiRecommendationRow(item)
+                }
+            }
+        }
+        .padding()
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    private func aiRecommendationRow(_ item: AiRecommendation) -> some View {
+        let isWarning = item.type == "warning"
+        return HStack(alignment: .top, spacing: 10) {
+            Image(systemName: isWarning ? "exclamationmark.triangle.fill" : "lightbulb.fill")
+                .foregroundStyle(isWarning ? .red : .purple)
+                .font(.caption)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(isWarning ? "Dikkat" : "Öneri")
+                    .font(.caption2.bold())
+                    .foregroundStyle(isWarning ? .red : .purple)
+                Text(item.content)
+                    .font(.caption)
+                    .foregroundStyle(.primary)
+            }
+        }
+        .padding(10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(isWarning ? Color.red.opacity(0.08) : Color.purple.opacity(0.08))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
     private func statsGrid(_ dashboard: DashboardData) -> some View {

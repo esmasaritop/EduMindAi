@@ -3,6 +3,13 @@ import Foundation
 struct LoginRequest: Encodable {
     let email: String
     let password: String
+    let deviceName: String
+
+    enum CodingKeys: String, CodingKey {
+        case email
+        case password
+        case deviceName = "device_name"
+    }
 }
 
 struct RegisterRequest: Encodable {

@@ -43,3 +43,15 @@ struct WeeklyTopicStat: Decodable, Identifiable {
     let weeklyMinutes: Int
     let totalMinutes: Int
 }
+
+struct AiRecommendation: Decodable, Identifiable {
+    let id: Int
+    let type: String
+    let content: String
+    let createdAt: String?
+}
+
+struct AiRecommendationStatus: Decodable {
+    let canGenerate: Bool
+    let cooldownRemainingMinutes: Int
+}

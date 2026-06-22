@@ -12,12 +12,13 @@ final class TimerViewModel: ObservableObject {
     @Published private(set) var topics: [Topic] = []
     @Published var subjectId: Int?
     @Published var topicId: Int?
-    @Published var mode: Mode?
-    @Published var countdownHours = 0
-    @Published var countdownMinutes = 0
+    @Published private(set) var mode: Mode?
+    @Published var countdownHours = 2
+    @Published var countdownMinutes = 30
     @Published var elapsedSeconds = 0
     @Published var remainingSeconds = 0
-    @Published var isRunning = false
+    @Published private(set) var countdownTarget = 0
+    @Published private(set) var isRunning = false
     @Published var isLoading = false
     @Published var errorMessage: String?
 
@@ -30,6 +31,46 @@ final class TimerViewModel: ObservableObject {
 
     deinit {
         tickTask?.cancel()
+    }
+
+    var isSelectionLocked: Bool {
+        isRunning || isCountdownActive || isStopwatchActive
+    }
+
+    var isCountdownActive: Bool {
+        mode == .countdown && (isRunning || countdownElapsed > 0)
+    }
+
+    var isStopwatchActive: Bool {
+        mode == .stopwatch && (isRunning || elapsedSeconds > 0)
+    }
+
+    var countdownElapsed: Int {
+        guard mode == .countdown, countdownTarget > 0 else { return 0 }
+        return countdownTarget - remainingSeconds
+    }
+
+    var countdownDisplaySeconds: Int {
+        if mode == .countdown && (isRunning || countdownElapsed > 0) {
+            return remainingSeconds
+        }
+        return max(0, countdownHours * 3600 + countdownMinutes * 60)
+    }
+
+    var canStartCountdown: Bool {
+        subjectId != nil && countdownDisplaySeconds > 0 && !isStopwatchActive && !isRunning
+    }
+
+    var canStartStopwatch: Bool {
+        subjectId != nil && !isCountdownActive && !isRunning
+    }
+
+    var canSaveCountdown: Bool {
+        mode == .countdown && !isRunning && countdownElapsed > 0
+    }
+
+    var canSaveStopwatch: Bool {
+        mode == .stopwatch && !isRunning && elapsedSeconds > 0
     }
 
     func load() async {
@@ -56,9 +97,10 @@ final class TimerViewModel: ObservableObject {
         }
     }
 
-    func applyPreset(minutes: Int) {
-        countdownHours = minutes / 60
-        countdownMinutes = minutes % 60
+    func applyPreset(hours: Int, minutes: Int) {
+        guard !isSelectionLocked else { return }
+        countdownHours = hours
+        countdownMinutes = minutes
     }
 
     func startCountdown() {
@@ -66,8 +108,13 @@ final class TimerViewModel: ObservableObject {
             errorMessage = "Önce ders seçin."
             return
         }
+        guard !isStopwatchActive else { return }
+
+        let target = max(1, countdownHours * 3600 + countdownMinutes * 60)
         mode = .countdown
-        remainingSeconds = max(1, countdownHours * 3600 + countdownMinutes * 60)
+        countdownTarget = target
+        remainingSeconds = target
+        errorMessage = nil
         startTicking {
             if self.remainingSeconds > 0 {
                 self.remainingSeconds -= 1
@@ -77,39 +124,63 @@ final class TimerViewModel: ObservableObject {
         }
     }
 
+    func stopCountdown() {
+        guard mode == .countdown, isRunning else { return }
+        stopTicking()
+    }
+
     func startStopwatch() {
         guard subjectId != nil else {
             errorMessage = "Önce ders seçin."
             return
         }
+        guard !isCountdownActive else { return }
+
         mode = .stopwatch
         elapsedSeconds = 0
+        errorMessage = nil
         startTicking {
             self.elapsedSeconds += 1
         }
     }
 
-    func reset() {
+    func stopStopwatch() {
+        guard mode == .stopwatch, isRunning else { return }
         stopTicking()
-        mode = nil
-        elapsedSeconds = 0
-        remainingSeconds = 0
     }
 
-    func save() async {
-        guard let subjectId else { return }
-        let minutes: Int
-        let notePrefix: String
-        switch mode {
-        case .countdown:
-            minutes = max(1, (countdownHours * 60) + countdownMinutes - (remainingSeconds / 60))
-            notePrefix = "Geri sayım"
-        case .stopwatch:
-            minutes = max(1, elapsedSeconds / 60)
-            notePrefix = "Kronometre"
-        case .none:
-            return
+    func resetCountdown() {
+        stopTicking()
+        if mode == .countdown {
+            mode = nil
         }
+        countdownTarget = 0
+        remainingSeconds = 0
+        errorMessage = nil
+    }
+
+    func resetStopwatch() {
+        stopTicking()
+        if mode == .stopwatch {
+            mode = nil
+        }
+        elapsedSeconds = 0
+        errorMessage = nil
+    }
+
+    func saveCountdown() async {
+        let saved = await save(minutes: max(1, countdownElapsed / 60), notePrefix: "Geri sayım")
+        if saved { resetCountdown() }
+    }
+
+    func saveStopwatch() async {
+        let saved = await save(minutes: max(1, elapsedSeconds / 60), notePrefix: "Kronometre")
+        if saved { resetStopwatch() }
+    }
+
+    @discardableResult
+    private func save(minutes: Int, notePrefix: String) async -> Bool {
+        guard let subjectId else { return false }
         let selectedTopic = topics.first(where: { $0.id == topicId })
         let notes = selectedTopic.map { "\(notePrefix) · Konu: \($0.name)" } ?? notePrefix
         let now = DateFormatters.isoNow()
@@ -133,9 +204,10 @@ final class TimerViewModel: ObservableObject {
                 ),
                 as: MessageDataEnvelope<StudySession>.self
             )
-            reset()
+            return true
         } catch {
             errorMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
+            return false
         }
     }
 
