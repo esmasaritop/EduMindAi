@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Subject\StoreSubjectRequest;
+use App\Http\Requests\Subject\UpdateSubjectRequest;
 use App\Http\Resources\SubjectResource;
 use App\Services\SubjectService;
 use Illuminate\Http\JsonResponse;
@@ -29,6 +30,16 @@ class SubjectController extends Controller
             'message' => 'Ders başarıyla oluşturuldu.',
             'data'    => new SubjectResource($subject),
         ], 201);
+    }
+
+    public function update(UpdateSubjectRequest $request, int $id): JsonResponse
+    {
+        $subject = $this->subjectService->updateSubject($request->user(), $id, $request->validated());
+
+        return response()->json([
+            'message' => 'Ders başarıyla güncellendi.',
+            'data'    => new SubjectResource($subject),
+        ]);
     }
 
     public function destroy(Request $request, int $id): JsonResponse

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AiRecommendationController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\GoalController;
@@ -28,6 +29,11 @@ Route::prefix('v1')->group(function () {
         // Dashboard
         Route::get('dashboard', [DashboardController::class, 'index']);
 
+        // AI Recommendations
+        Route::get('ai/recommendations', [AiRecommendationController::class, 'index']);
+        Route::get('ai/recommendations/status', [AiRecommendationController::class, 'status']);
+        Route::post('ai/recommendations/generate', [AiRecommendationController::class, 'generate']);
+
         // Study Sessions
         Route::apiResource('study-sessions', StudySessionController::class)
             ->only(['index', 'store', 'update', 'destroy']);
@@ -36,6 +42,7 @@ Route::prefix('v1')->group(function () {
         // Subjects
         Route::get('subjects', [SubjectController::class, 'index']);
         Route::post('subjects', [SubjectController::class, 'store']);
+        Route::put('subjects/{id}', [SubjectController::class, 'update']);
         Route::delete('subjects/{id}', [SubjectController::class, 'destroy']);
 
         // Goals
@@ -53,6 +60,7 @@ Route::prefix('v1')->group(function () {
         // Question Stats
         Route::get('questions', [QuestionStatController::class, 'index']);
         Route::post('questions/topics/{topicId}', [QuestionStatController::class, 'upsert']);
+        Route::patch('questions/topics/{topicId}/add', [QuestionStatController::class, 'add']);
 
         // Notifications
         Route::get('notifications/summary', [NotificationController::class, 'summary']);

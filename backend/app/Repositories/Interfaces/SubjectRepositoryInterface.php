@@ -13,5 +13,7 @@ interface SubjectRepositoryInterface
 
     public function create(array $data): Subject;
 
+    public function update(Subject $subject, array $data): Subject;
+
     public function delete(Subject $subject): bool;
 }

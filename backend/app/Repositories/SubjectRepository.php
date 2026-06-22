@@ -31,6 +31,13 @@ class SubjectRepository implements SubjectRepositoryInterface
         return $this->model->create($data);
     }
 
+    public function update(Subject $subject, array $data): Subject
+    {
+        $subject->update($data);
+
+        return $subject->fresh();
+    }
+
     public function delete(Subject $subject): bool
     {
         return $subject->delete();

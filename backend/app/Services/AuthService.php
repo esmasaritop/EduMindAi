@@ -41,8 +41,9 @@ class AuthService
         }
 
         $user = Auth::user();
-        $user->tokens()->delete();
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $deviceName = $credentials['device_name'] ?? 'auth_token';
+        $user->tokens()->where('name', $deviceName)->delete();
+        $token = $user->createToken($deviceName)->plainTextToken;
 
         return [
             'user'  => $user,

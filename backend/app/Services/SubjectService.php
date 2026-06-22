@@ -26,6 +26,17 @@ class SubjectService
         ]);
     }
 
+    public function updateSubject(User $user, int $subjectId, array $data): Subject
+    {
+        $subject = $this->subjectRepository->findForUser($subjectId, $user->id);
+
+        abort_if(!$subject, 404, 'Ders bulunamadı.');
+
+        return $this->subjectRepository->update($subject, [
+            'name' => $data['name'],
+        ]);
+    }
+
     public function deleteSubject(User $user, int $subjectId): void
     {
         $subject = $this->subjectRepository->findForUser($subjectId, $user->id);

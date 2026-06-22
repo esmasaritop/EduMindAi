@@ -22,6 +22,33 @@ class QuestionStatService
         );
     }
 
+    public function addToStat(QuestionStat $stat, array $increments): QuestionStat
+    {
+        $correct = $increments['correct'] ?? 0;
+        $wrong = $increments['wrong'] ?? 0;
+        $empty = $increments['empty'] ?? 0;
+        $total = $increments['total_questions'] ?? 0;
+
+        if ($total === 0 && ($correct + $wrong + $empty) > 0) {
+            $total = $correct + $wrong + $empty;
+        }
+
+        if ($total > 0) {
+            $stat->increment('total_questions', $total);
+        }
+        if ($correct > 0) {
+            $stat->increment('correct', $correct);
+        }
+        if ($wrong > 0) {
+            $stat->increment('wrong', $wrong);
+        }
+        if ($empty > 0) {
+            $stat->increment('empty', $empty);
+        }
+
+        return $stat->fresh();
+    }
+
     public function getTrackedStatsForUser(User $user): Collection
     {
         $topics = Topic::query()
